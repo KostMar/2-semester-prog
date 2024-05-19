@@ -1,0 +1,996 @@
+#1.1.
+input_string = input("Введите предложение или слова: ")
+words = input_string.lower().split()
+unique_words = set(words)
+sorted_unique_words = sorted(unique_words)
+
+print("Уникальные слова в алфавитном порядке:")
+for word in sorted_unique_words:
+    print(word)
+
+#1.2.
+def prime(n):
+    """Проверка на, то простое число или нет."""
+    if n <= 1:
+        return False
+    if n == 2:
+        return True
+    if n % 2 == 0:
+        return False
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return False
+    return True
+
+def sum_of_primes(a, b):
+    """Вычисление суммы простых чисел в между [a, b]."""
+    total = 0
+    for num in range(a, b + 1):
+        if is_prime(num):
+            total += num
+    return total
+
+# Запрашиваем значения a и b
+a = int(input("Введите число a: "))
+b = int(input("Введите число b: "))
+
+# Находим и выводим сумму всех простых чисел в заданном интервале
+result = sum_of_primes(a, b)
+print(f"Сумма всех простых чисел в от {a} до {b} равна {result}")
+
+#1.3.
+import string
+
+def palindrome(s):
+    """Проверка, является ли строка палиндромом."""
+    s = ''.join(char.lower() for char in s if char.isalnum())
+    return s == s[::-1]
+
+input_string = input("Введите строку: ")
+
+if is_palindrome(input_string):
+    print("Строка - палиндромом.")
+else:
+    print("Строка - не палиндромом.")
+
+#1.4
+import random
+
+def opred_pobed(user_choice, computer_choice):
+    """Определение победителя."""
+    if user_choice == computer_choice:
+        return "Ничья!"
+    elif (user_choice == "камень" and computer_choice == "ножницы") or \
+         (user_choice == "ножницы" and computer_choice == "бумага") or \
+         (user_choice == "бумага" and computer_choice == "камень"):
+        return "Вы выиграли!"
+    else:
+        return "Вы проиграли!"
+
+def main():
+    # Возможные ходы
+    choices = ["камень", "ножницы", "бумага"]
+
+    # Запрашиваем ход пользователя
+    user_choice = input("Введите ваш ход (камень, ножницы, бумага): ").strip().lower()
+
+    if user_choice not in choices:
+        print("Неправильный выбор. Пожалуйста, выберите 'камень', 'ножницы' или 'бумага'.")
+        return
+
+    # Ход компьютера
+    computer_choice = random.choice(choices)
+    print(f"Ход компьютера: {computer_choice}")
+
+    # Определяем победителя
+    result = opred_pobed(user_choice, computer_choice)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+
+#1.5
+import csv
+
+def read_csv(file_path):
+    """Считывает данные из CSV файла и возвращает их в виде списка списков."""
+    with open(file_path, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        data = [list(map(float, row)) for row in reader]
+    return data
+
+def calculate_column_averages(data):
+    """Вычисляет среднее арифметическое чисел в каждой колонке."""
+    if not data:
+        return []
+
+    num_columns = len(data[0])
+    column_sums = [0] * num_columns
+    column_counts = [0] * num_columns
+
+    for row in data:
+        for i in range(num_columns):
+            column_sums[i] += row[i]
+            column_counts[i] += 1
+
+    column_averages = [column_sums[i] / column_counts[i] for i in range(num_columns)]
+    return column_averages
+
+def main():
+    file_path = 'data.csv'
+    data = read_csv(file_path)
+    averages = calculate_column_averages(data)
+    print("Среднее арифметическое чисел в каждой колонке:")
+    for i, avg in enumerate(averages):
+        print(f"Колонка {i + 1}: {avg:.2f}")
+
+if __name__ == "__main__":
+    main()
+
+#2.1
+class Book:
+    def __init__(self, title, author):
+        """Инициализация объекта книги с названием и автором."""
+        self._title = title
+        self._author = author
+
+    def get_title(self):
+        """Метод для получения названия книги."""
+        return self._title
+
+    def get_author(self):
+        """Метод для получения автора книги."""
+        return self._author
+
+if __name__ == "__main__":
+    book = Book("Фауст", "Вольфганг Иоган Гёте")
+    print(f"Название: {book.get_title()}")
+    print(f"Автор: {book.get_author()}")
+
+#2.10
+class Student:
+    def __init__(self, name, age):
+        """Инициализация объекта студента с именем, возрастом и пустым списком предметов."""
+        self.name = name
+        self.age = age
+        self.subjects = []
+
+    def add_subject(self, subject):
+        """Добавление предмета в список."""
+        self.subjects.append(subject)
+        print(f"Предмет '{subject}' добавлен для студента '{self.name}'.")
+
+    def remove_subject(self, subject):
+        """Удаление предмета из списка."""
+        if subject in self.subjects:
+            self.subjects.remove(subject)
+            print(f"Предмет '{subject}' удален для студента '{self.name}'.")
+        else:
+            print(f"Предмет '{subject}' не найден у студента '{self.name}'.")
+
+    def average_score(self):
+        """Расчет среднего балла студента."""
+        if not self.subjects:
+            print(f"Для студента '{self.name}' нет предметов.")
+            return None
+        total_score = sum(self.subjects)
+        average = total_score / len(self.subjects)
+        return average
+
+# Пример
+if __name__ == "__main__":
+    student1 = Student("Сидаров", 20)
+    student2 = Student("Павлов", 22)
+
+    student1.add_subject(5)
+    student1.add_subject(4)
+    student1.add_subject(3)
+    student2.add_subject(4)
+    student2.add_subject(4)
+    student2.add_subject(5)
+
+    student1.remove_subject(3)
+    student2.remove_subject(4)
+
+    avg_score_student1 = student1.average_score()
+    avg_score_student2 = student2.average_score()
+    print(f"Средний балл студента '{student1.name}': {avg_score_student1}")
+    print(f"Средний балл студента '{student2.name}': {avg_score_student2}")
+class Student:
+    def __init__(self, name, age):
+        """Инициализация объекта студента с именем, возрастом и пустым списком предметов."""
+        self.name = name
+        self.age = age
+        self.subjects = []
+
+    def add_subject(self, subject):
+        """Добавление предмета в список."""
+        self.subjects.append(subject)
+        print(f"Предмет '{subject}' добавлен для студента '{self.name}'.")
+
+    def remove_subject(self, subject):
+        """Удаление предмета из списка."""
+        if subject in self.subjects:
+            self.subjects.remove(subject)
+            print(f"Предмет '{subject}' удален для студента '{self.name}'.")
+        else:
+            print(f"Предмет '{subject}' не найден у студента '{self.name}'.")
+
+    def average_score(self):
+        """Расчет среднего балла студента."""
+        if not self.subjects:
+            print(f"Для студента '{self.name}' нет предметов.")
+            return None
+        total_score = sum(self.subjects)
+        average = total_score / len(self.subjects)
+        return average
+
+# Пример
+if __name__ == "__main__":
+    student1 = Student("Сидаров", 20)
+    student2 = Student("Павлов", 22)
+
+    student1.add_subject(5)
+    student1.add_subject(4)
+    student1.add_subject(3)
+    student2.add_subject(4)
+    student2.add_subject(4)
+    student2.add_subject(5)
+
+    student1.remove_subject(3)
+    student2.remove_subject(4)
+
+    avg_score_student1 = student1.average_score()
+    avg_score_student2 = student2.average_score()
+    print(f"Средний балл студента '{student1.name}': {avg_score_student1}")
+    print(f"Средний балл студента '{student2.name}': {avg_score_student2}")
+
+#2.2
+class Soda:
+    def __init__(self, additive=None):
+        """Инициализация объекта газированной воды с добавкой (если есть)."""
+        self.additive = additive
+
+    def show_my_drink(self):
+        """Выводит описание напитка в зависимости от наличия добавки."""
+        if self.additive:
+            print(f"Газировка и {self.additive}")
+        else:
+            print("Обычная газировка")
+ 
+if __name__ == "__main__":
+    soda_with_additive = Soda("вишня")
+    soda_without_additive = Soda()
+    soda_with_additive.show_my_drink()
+    soda_without_additive.show_my_drink()
+
+#2.3
+class TriangleChecker:
+    def __init__(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = c
+
+    def is_triangle(self):
+        """Проверяет, можно ли из заданных отрезков построить треугольник."""
+        if not all(isinstance(x, (int, float)) for x in [self.a, self.b, self.c]):
+            return "Нужно вводить только числа"
+        if any(x <= 0 for x in [self.a, self.b, self.c]):
+            return "нельзя вводить отрицательные числа"
+        if (self.a + self.b > self.c) and (self.a + self.c > self.b) and (self.b + self.c > self.a):
+            return "Такой треугольник возможен"
+        else:
+            return "Такой треугольник не возможен"
+        
+if __name__ == "main":
+    examples = [
+        (3, 4, 5),
+        (-3, 4, 5),
+        ("3", 4, 5),
+        (1, 2, 10)
+    ]
+
+    for sides in examples:
+        checker = TriangleChecker(*sides)
+        result = checker.is_triangle()
+        print(f"Отрезок {sides}: {result}")
+
+#2.4
+class Nikola:
+    def __init__(self, name, age):
+        """Инициализация с именем и возрастом."""
+        self.age = age
+        if name.lower() == "николай":
+            self.name = name
+        else:
+            self.name = f"Я не {name}, а Николай"
+
+    def get_name(self):
+        """Возвращает имя."""
+        return self.name
+
+    def get_age(self):
+        """Возвращает возраст."""
+        return self.age
+
+#for example
+if __name__ == "_main_":
+    person1 = Nikola("Николай", 30)
+    person2 = Nikola("Антон", 25)
+    print(f"Имя: {person1.get_name()}, Возраст: {person1.get_age()}")
+    print(f"Имя: {person2.get_name()}, Возраст: {person2.get_age()}")
+
+#2.5
+class Library:
+    def __init__(self):
+        """Инициализация объекта библиотеки с пустым списком книг."""
+        self.book_list = []
+
+    def add_book(self, book):
+        """Добавляет книгу в список книг."""
+        self.book_list.append(book)
+        print(f"Книга '{book}' успешно добавлена в библиотеку.")
+
+    def remove_book(self, book):
+        """Удаляет книгу из списка книг."""
+        if book in self.book_list:
+            self.book_list.remove(book)
+            print(f"Книга '{book}' успешно удалена из библиотеки.")
+        else:
+            print(f"Книги '{book}' нет в библиотеке.")
+
+    def find_book(self, title):
+        """Ищет книгу в списке книг по названию."""
+        found_books = [book for book in self.book_list if book.get_title() == title]
+        if found_books:
+            print(f"Найдены следующие книги с названием '{title}':")
+            for book in found_books:
+                print(f"- {book}")
+        else:
+            print(f"Книги с названием '{title}' не найдены в библиотеке.")
+
+class Book:
+    def _init_(self, title, author):
+        """Инициализация объекта книги с названием и автором."""
+        self.title = title
+        self.author = author
+
+    def get_title(self):
+        """Метод для получения названия книги."""
+        return self.title
+
+    def _str_(self):
+        """Метод для представления объекта книги в виде строки."""
+        return f"{self.title} (автор: {self.author})"
+
+# Пример использования класса Library
+if __name__ == "_main_":
+    library = Library()
+
+    book1 = Book("Капитанская дочка", "Александр Пушкин")
+    book2 = Book("Фауст", "Вольфганг Иоган Гёте")
+    library.add_book(book1)
+    library.add_book(book2)
+
+    library.find_book("Капитанская дочка")
+    library.find_book("Анна Каренина")
+
+    library.remove_book(book1)
+    library.find_book("Капитанская дочка")
+
+#2.6
+class Aircraft:
+    def _init_(self, model, capacity):
+        """Инициализация объекта самолета с моделью и вместимостью."""
+        self.model = model
+        self.capacity = capacity
+
+    def get_model(self):
+        """Метод для получения модели самолета."""
+        return self.model
+
+    def _str_(self):
+        """Метод для представления объекта самолета в виде строки."""
+        return f"{self.model} (вместимость: {self.capacity} пассажиров)"
+
+class Route:
+    def _init_(self, origin, destination):
+        """Инициализация объекта маршрута с начальным и конечным пунктами."""
+        self.origin = origin
+        self.destination = destination
+
+    def get_origin(self):
+        """Метод для получения начального пункта маршрута."""
+        return self.origin
+
+    def get_destination(self):
+        """Метод для получения конечного пункта маршрута."""
+        return self.destination
+
+    def _str_(self):
+        """Метод для представления объекта маршрута в виде строки."""
+        return f"{self.origin} -> {self.destination}"
+
+class Airline:
+    def _init_(self):
+        """Инициализация объекта авиакомпании с пустыми списками самолетов и маршрутов."""
+        self.aircraft_list = []
+        self.route_list = []
+
+    def add_aircraft(self, aircraft):
+        """Добавляет самолет в список самолетов."""
+        self.aircraft_list.append(aircraft)
+        print(f"Самолет '{aircraft}' успешно добавлен в авиакомпанию.")
+
+    def remove_aircraft(self, model):
+        """Удаляет самолет из списка самолетов по модели."""
+        for aircraft in self.aircraft_list:
+            if aircraft.get_model() == model:
+                self.aircraft_list.remove(aircraft)
+                print(f"Самолет модели '{model}' успешно удален из авиакомпании.")
+                return
+        print(f"Самолет модели '{model}' не найден в авиакомпании.")
+
+    def add_route(self, route):
+        """Добавляет маршрут в список маршрутов."""
+        self.route_list.append(route)
+        print(f"Маршрут '{route}' успешно добавлен в авиакомпанию.")
+
+    def remove_route(self, origin, destination):
+        """Удаляет маршрут из списка маршрутов по начальному и конечному пунктам."""
+        for route in self.route_list:
+            if route.get_origin() == origin and route.get_destination() == destination:
+                self.route_list.remove(route)
+                print(f"Маршрут '{route}' успешно удален из авиакомпании.")
+                return
+        print(f"Маршрут от '{origin}' до '{destination}' не найден в авиакомпании.")
+
+    def find_aircraft(self, model):
+        """Ищет самолет в списке самолетов по модели."""
+        found_aircraft = [aircraft for aircraft in self.aircraft_list if aircraft.get_model() == model]
+        if found_aircraft:
+            print(f"Найдены следующие самолеты модели '{model}':")
+            for aircraft in found_aircraft:
+                print(f"- {aircraft}")
+        else:
+            print(f"Самолеты модели '{model}' не найдены в авиакомпании.")
+
+    def find_routes_for_city(self, city):
+        """Ищет доступные маршруты для заданного города."""
+        available_routes = [route for route in self.route_list if route.get_origin() == city]
+        if available_routes:
+            print(f"Доступные маршруты из города '{city}':")
+            for route in available_routes:
+                print(f"- {route.get_destination()}")
+        else:
+            print(f"Для города '{city}' нет доступных маршрутов.")
+
+# Пример
+if __name__ == "_main_":
+    airline = Airline()
+
+    aircraft1 = Aircraft("Airbus A320", 180)
+    aircraft2 = Aircraft("Boeing 737", 200)
+    airline.add_aircraft(aircraft1)
+    airline.add_aircraft(aircraft2)
+
+    route1 = Route("Санкт-Петербург", "Вена")
+    route2 = Route("Санкт-Петербург", "Ньюкасл")
+    airline.add_route(route1)
+    airline.add_route(route2)
+
+    airline.find_aircraft("Airbus A320")
+airline.find_aircraft("Boeing 747")
+
+    airline.find_routes_for_city("Санкт-Петербург")
+    airline.find_
+
+#2.7
+class BankAccount:
+    def _init_(self, account_number, owner, balance):
+        """Инициализация объекта банковского счета с номером счета, владельцем и балансом."""
+        self.account_number = account_number
+        self.owner = owner
+        self.balance = balance
+
+    def deposit(self, amount):
+        """Пополнение счета."""
+        commission = amount * 0.01  # Рассчитываем комиссию
+        total_amount = amount - commission  # Вычитаем комиссию из суммы пополнения
+        self.balance += total_amount  # Увеличиваем баланс на сумму пополнения
+        print(f"Счет пополнен на {total_amount:.2f} (включая комиссию 1%). Новый баланс: {self.balance:.2f}")
+
+    def withdraw(self, amount):
+        """Снятие средств со счета."""
+        if amount <= self.balance:
+            commission = amount * 0.01  # Рассчитываем комиссию
+            total_amount = amount + commission  # Добавляем комиссию к сумме снятия
+            self.balance -= total_amount  # Уменьшаем баланс на сумму снятия с учетом комиссии
+            print(f"Со счета списано {total_amount:.2f} (включая комиссию 1%). Новый баланс: {self.balance:.2f}")
+        else:
+            print("Недостаточно средств на счете.")
+
+    def check_balance(self):
+        """Проверка баланса."""
+        print(f"Текущий баланс на счете: {self.balance:.2f}")
+
+# Пример
+if __name__ == "_main_":
+    account1 = BankAccount("123456789", "Сидаров", 1000)
+    account2 = BankAccount("987654321", "Павлов", 500)
+
+    account1.deposit(800)
+    account2.withdraw(400)
+
+    account1.check_balance()
+    account2.check_balance()
+
+#2.8
+import math
+
+class Point:
+    def _init_(self, x, y):
+        """Инициализация объекта точки с координатами x и y."""
+        self.x = x
+        self.y = y
+
+    def distance_to(self, other_point):
+        """Вычисление расстояния между двумя точками."""
+        distance = math.sqrt((other_point.x - self.x) ** 2 + (other_point.y - self.y) ** 2)
+        return distance
+
+    def move(self, distance, direction):
+        """Перемещение точки на данное расстояние в заданном направлении."""
+        if direction == 'вверх':
+            self.y += distance
+        elif direction == 'вниз':
+            self.y -= distance
+        elif direction == 'влево':
+            self.x -= distance
+        elif direction == 'вправо':
+            self.x += distance
+        else:
+            print("Некорректное направление. Допустимые значения: 'вверх', 'вниз', 'влево', 'вправо'.")
+
+    def is_on_x_axis(self):
+        """Проверка, лежит ли точка на оси x."""
+        return self.y == 0
+
+    def is_on_y_axis(self):
+        """Проверка, лежит ли точка на оси y."""
+        return self.x == 0
+
+# Пример
+if __name__ == "_main_":
+    point1 = Point(3, 4)
+    point2 = Point(-2, 0)
+
+    distance = point1.distance_to(point2)
+    print(f"Расстояние между точками: {distance:.2f}")
+
+    point1.move(5, 'вправо')
+    print(f"Новые координаты точки 1: ({point1.x}, {point1.y})")
+
+    print(f"Точка 1 лежит на оси x: {point1.is_on_x_axis()}")
+    print(f"Точка 2 лежит на оси y: {point2.is_on_y_axis()}")
+
+#2.9
+class Product:
+    def _init_(self, name, price, quantity):
+        """Инициализация объекта продукта с названием, ценой и количеством."""
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
+    def increase_quantity(self, amount):
+        """Увеличение количества товара."""
+        self.quantity += amount
+        print(f"Количество товара '{self.name}' увеличено на {amount}.")
+
+    def decrease_quantity(self, amount):
+        """Уменьшение количества товара."""
+        if self.quantity >= amount:
+            self.quantity -= amount
+            print(f"Количество товара '{self.name}' уменьшено на {amount}.")
+        else:
+            print(f"Недостаточно товара '{self.name}' на складе.")
+
+    def total_price(self):
+        """Расчет общей стоимости товара."""
+        total_cost = self.price * self.quantity
+        return total_cost
+
+# Пример
+if __name__ == "_main_":
+    product1 = Product("Наушники", 20, 50)
+    product2 = Product("Шоколада", 10, 100)
+
+    product1.increase_quantity(20)
+    product2.decrease_quantity(50)
+
+    total_cost_product1 = product1.total_price()
+    total_cost_product2 = product2.total_price()
+    print(f"Общая стоимость товара '{product1.name}': {total_cost_product1}")
+    print(f"Общая стоимость товара '{product2.name}': {total_cost_product2}")
+
+#3.1
+def chitat_fail(file_name):
+    """Функция для чтения содержимого файла и вывода его на экран."""
+    try:
+        with open(file_name, 'r') as file:
+            content = file.read()
+            print(content)
+    except FileNotFoundError:
+        print(f"Файл '{file_name}' не найден.")
+
+with open("example.txt", 'w') as file:
+    file.write("Это первая строка текста.\n")
+    file.write("Это вторая строка текста.\n")
+    file.write("Это третья строка текста.\n")
+
+# answer
+chitat_fail("example.txt")
+
+#3.2
+import csv
+
+def read_csv(file_name):
+    """Функция для чтения содержимого CSV-файла и вывода его на экран."""
+    try:
+        with open(file_name, 'r', newline='') as file:
+            reader = csv.reader(file)
+            print("Содержимое CSV-файла:")
+            for row in reader:
+                print(', '.join(row))
+    except FileNotFoundError:
+        print(f"Файл '{file_name}' не найден.")
+
+# Сохраняем данные в CSV-файл "data.csv"
+data = [
+    ["Александр", "Павлов", 25],
+    ["Максим", "Соколов", 30],
+    ["Анастасия", "Лямова", 28]
+]
+
+with open("data.csv", 'w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["Имя", "Фамилия", "Возраст"])
+    writer.writerows(data)
+
+# Вызываем функцию для файла "data.csv"
+read_csv("data.csv")
+
+#3.3
+import csv
+
+def process_large_csv(file_name):
+    """Функция для обработки данных из большого CSV-файла."""
+    total_temperature = 0
+    count_temperature = 0
+    min_humidity = float('inf')
+    max_humidity = float('-inf')
+
+    try:
+        with open(file_name, 'r', newline='') as file:
+            reader = csv.DictReader(file)
+            
+            for row in reader:
+                # Пример обработки данных: вычисление среднего значения температуры
+                temperature = float(row['Temperature'])
+                total_temperature += temperature
+                count_temperature += 1
+
+                # Пример обработки данных: нахождение минимальной и максимальной влажности
+                humidity = float(row['Humidity'])
+                if humidity < min_humidity:
+                    min_humidity = humidity
+                if humidity > max_humidity:
+                    max_humidity = humidity
+
+        avg_temperature = total_temperature / count_temperature if count_temperature != 0 else 0
+
+        print(f"Средняя температура: {avg_temperature}")
+        print(f"Минимальная влажность: {min_humidity}")
+        print(f"Максимальная влажность: {max_humidity}")
+
+    except FileNotFoundError:
+        print(f"Файл '{file_name}' не найден.")
+    except KeyError as e:
+        print(f"Отсутствует необходимый столбец в CSV-файле: {e}")
+    except ValueError as e:
+        print(f"Ошибка преобразования данных: {e}")
+
+process_large_csv("large_data.csv")
+
+#3.4
+import csv
+
+def merge_csv_files(output_file, *input_files):
+    """Функция для объединения данных из нескольких CSV-файлов в один."""
+    fieldnames = ['Имя', 'Возраст', 'Местоположение']
+    
+    try:
+        with open(output_file, 'w', newline='') as out_file:
+            writer = csv.DictWriter(out_file, fieldnames=fieldnames)
+            writer.writeheader()
+
+            for file_name in input_files:
+                try:
+                    with open(file_name, 'r', newline='') as in_file:
+                        reader = csv.DictReader(in_file)
+                        
+                        # Проверяем, соответствуют ли столбцы ожидаемому формату
+                        if reader.fieldnames != fieldnames:
+                            print(f"Предупреждение: формат файла '{file_name}' не соответствует ожидаемому формату.")
+                            continue
+                        
+                        for row in reader:
+                            writer.writerow(row)
+                except FileNotFoundError:
+                    print(f"Файл '{file_name}' не найден.")
+                except KeyError as e:
+                    print(f"Отсутствует необходимый столбец в CSV-файле '{file_name}': {e}")
+                except ValueError as e:
+                    print(f"Ошибка преобразования данных в файле '{file_name}': {e}")
+
+        print(f"Данные успешно объединены и сохранены в файл '{output_file}'.")
+
+    except IOError as e:
+        print(f"Ошибка записи в файл '{output_file}': {e}")
+
+# Пример
+merge_csv_files("merged_data.csv", "data1.csv", "data2.csv", "data3.csv", "data4.cvs")
+
+#3.5
+import xml.etree.ElementTree as ET
+
+def parse_xml(file_name):
+    """Функция для парсинга XML-файла и извлечения информации о товарах."""
+    tree = ET.parse(file_name)
+    root = tree.getroot()
+
+    products = []
+    
+    for product in root.findall('product'):
+        name = product.find('name').text
+        category = product.find('category').text
+        price = float(product.find('price').text)
+        
+        products.append({
+            'name': name,
+            'category': category,
+            'price': price
+        })
+    
+    return products
+
+def sort_by_price(products):
+    """Функция для сортировки товаров по цене."""
+    return sorted(products, key=lambda x: x['price'])
+
+def filter_by_category(products, category):
+    """Функция для фильтрации товаров по категории."""
+    return [product for product in products if product['category'] == category]
+
+def calculate_total_cost(products):
+    """Функция для расчета общей стоимости заказа."""
+    return sum(product['price'] for product in products)
+
+def display_products(products):
+    """Функция для отображения списка товаров."""
+    print(f"{'Название':<15}{'Категория':<20}{'Цена':<10}")
+    print("-" * 45)
+    for product in products:
+        print(f"{product['name']:<15}{product['category']:<20}{product['price']:<10}")
+
+# Пример использования функций
+if __name__ == "_main_":
+    products = parse_xml("products.xml")
+
+    print("Все товары:")
+    display_products(products)
+
+    sorted_products = sort_by_price(products)
+    print("\nТовары, отсортированные по цене:")
+    display_products(sorted_products)
+
+    product = filter_by_category(products, "Продукты питания")
+    print("\nТовары в категории 'Продукты питания':")
+    display_products(electronics)
+
+    total_cost = calculate_total_cost(products)
+    print(f"\nОбщая стоимость всех товаров: {total_cost} руб.")
+
+#3.7
+import re
+from collections import Counter
+
+def analyze_text(file_name):
+    """Функция для анализа содержимого текстового файла."""
+    with open(file_name, 'r', encoding='utf-8') as file:
+        text = file.read()
+
+    # Удаление пунктуации для анализа частоты слов
+    words = re.findall(r'\b\w+\b', text.lower())
+    word_count = Counter(words)
+
+    # Анализ длин предложений
+    sentences = re.split(r'[.!?]', text)
+    sentence_lengths = [len(sentence.split()) for sentence in sentences if sentence.strip()]
+
+    # Подсчет предложений и слов
+    num_sentences = len(sentences)
+    num_words = len(words)
+
+    # Ключевые слова для анализа
+    keywords = ['python', 'programming', 'language']
+    keyword_count = {keyword: words.count(keyword) for keyword in keywords}
+
+    return {
+        'word_count': word_count,
+        'sentence_lengths': sentence_lengths,
+        'num_sentences': num_sentences,
+        'num_words': num_words,
+        'keyword_count': keyword_count
+    }
+
+def display_statistics(stats):
+    """Функция для отображения статистики анализа текста."""
+    print("Общая статистика:")
+    print(f"Количество предложений: {stats['num_sentences']}")
+    print(f"Количество слов: {stats['num_words']}")
+    
+    print("\nЧастота слов:")
+    for word, count in stats['word_count'].most_common(10):
+        print(f"{word}: {count}")
+
+    print("\nДлина предложений (в словах):")
+    for length in stats['sentence_lengths']:
+        print(length)
+
+    print("\nКлючевые слова:")
+    for keyword, count in stats['keyword_count'].items():
+        print(f"{keyword}: {count}")
+
+if __name__ == "_main_":
+    file_name = "large_text.txt"
+    stats = analyze_text(file_name)
+    display_statistics(stats)
+
+#3.8
+def puzurcoB_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        swapped = False
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+                swapped = True
+        if not swapped:
+            break
+    return arr
+
+# Пример использования
+numbers = [64, 34, 25, 12, 22, 11, 90]
+sorted_numbers = bubble_sort(numbers.copy())
+print("Сортировка пузырьком:", sorted_numbers)
+
+#4.1
+import itertools
+
+def generate_combinations(word):
+    permutations = itertools.permutations(word)
+    combinations = [''.join(p) for p in permutations]
+    unique_combinations = set(combinations)
+    
+    return unique_combinations
+
+# Пример
+word = "слово"
+combinations = generate_combinations(word)
+print("Все возможные комбинации букв в слове:")
+for combo in combinations:
+    print(combo)
+
+#4.2
+import re
+from collections import Counter
+
+def read_file(file_name):
+    """Читает содержимое текстового файла."""
+    with open(file_name, 'r', encoding='utf-8') as file:
+        return file.read()
+
+def clean_text(text):
+    """Очищает текст от пунктуации и приводит его к нижнему регистру."""
+    text = text.lower()
+    text = re.sub(r'[^\w\s]', '', text)
+    return text
+
+def get_word_frequencies(text):
+    """Возвращает частоту слов в тексте."""
+    words = text.split()
+    word_count = Counter(words)
+    return word_count
+
+def print_top_words(word_count, top_n=10):
+    """Выводит наиболее часто встречающиеся слова."""
+    most_common_words = word_count.most_common(top_n)
+    print(f"Топ {top_n} наиболее часто встречающихся слов:")
+    for word, count in most_common_words:
+        print(f"{word}: {count}")
+
+if __name__ == "_main_":
+    file_name = "example.txt"
+    text = read_file(file_name)
+    cleaned_text = clean_text(text)
+    word_count = get_word_frequencies(cleaned_text)
+    print_top_words(word_count, top_n=10)
+
+#4.3
+def power(a, k):
+    if k == 0:
+        return 1
+    elif k < 0:
+        return 1 / power(a, -k)
+    elif k % 2 == 0:
+        half_power = power(a, k // 2)
+        return half_power * half_power
+    else:
+        return a * power(a, k - 1)
+
+# Пример 
+base = 20
+exponent = 3
+result = power(base, exponent)
+print(f"{base}^{exponent} = {result}")
+
+#4.4
+def longest_neBozrast_subsequence(arr):
+    n = len(arr)
+    lengths = [1] * n
+
+    for i in range(1, n):
+        for j in range(i):
+            if arr[j] >= arr[i]:
+                lengths[i] = max(lengths[i], lengths[j] + 1)
+
+    max_length = max(lengths)
+
+    sequence = []
+    current_length = max_length
+    for i in range(n - 1, -1, -1):
+        if lengths[i] == current_length:
+            sequence.append(arr[i])
+            current_length -= 1
+    sequence.reverse()
+
+    return sequence
+
+# Пример
+arr = [9, 7, 1, 3, 4, 0, 8, 5]
+result = longest_neBozrast_subsequence(arr)
+print("Наибольшая невозрастающая последовательность:", result)
+
+#4.5
+import csv
+
+def calculate_column_sum(file_name, column_index):
+    total_sum = 0
+
+    with open(file_name, newline='') as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
+            try:
+                value = float(row[column_index])
+                total_sum += value
+            except ValueError:
+                pass
+
+    return total_sum
+
+# Пример
+file_name = 'data.csv'
+column_index = 2 
+total_sum = calculate_column_sum(file_name, column_index)
+print(f"Сумма числовых значений в столбце {column_index + 4}: {total_sum}")
